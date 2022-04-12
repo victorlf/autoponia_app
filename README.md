@@ -1,16 +1,26 @@
-# autoponia_app
+# Autoponia App
 
-A new Flutter project.
+Solução do desafio de Flutter da Autoponia.
 
-## Getting Started
+## Como Rodar o App
 
-This project is a starting point for a Flutter application.
+- Instalar o pacote [dartion](https://pub.dev/packages/dartion) para rodar o servidor local.
+    - Se não tiver o pacote instalado, instale! [Artigo (de 4 min)](https://medium.com/@correiarangel/mini-servidor-web-no-flutter-com-dartion-56c43e57d225) que ensina a instalação em poucos paços.
+    - Pelo terminal, entre ma pasta `server` do projeto e roda o comando `dartion serve` para iniciar o servidor. 
+        - A porta configurada é `5555`, se precisar trocar vá em `server/config.yaml` .
 
-A few resources to get you started if this is your first Flutter project:
+- Para conseguir acessar o servidor sem grandes problemas, rode o App no Emulador Android, Desktop ou Web.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Arquitetura do Projeto
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Arquitetura Modular usando o pacote [flutter_modular](https://pub.dev/packages/flutter_modular) para Navegação e Injeção de Dependências
+- Cada módulo segue:
+    - O padrão MVVM, seguindo os conceitos do BLoC
+    - O padrão serviço
+    - O padrão protótipo
+- Gerenciamento de Estado é feito usando o pacote [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+
+
+
+
+
