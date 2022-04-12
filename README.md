@@ -5,7 +5,7 @@ Solução do desafio de Flutter da Autoponia.
 ## Como Rodar o App
 
 - Instalar o pacote [dartion](https://pub.dev/packages/dartion) para rodar o servidor local.
-    - Se não tiver o pacote instalado, instale! [Artigo (de 4 min)](https://medium.com/@correiarangel/mini-servidor-web-no-flutter-com-dartion-56c43e57d225) que ensina a instalação em poucos paços.
+    - Se não tiver o pacote instalado, instale! [Artigo (de 4 min)](https://medium.com/@correiarangel/mini-servidor-web-no-flutter-com-dartion-56c43e57d225) que ensina a instalação em poucos passos.
     - Pelo terminal, entre ma pasta `server` do projeto e roda o comando `dartion serve` para iniciar o servidor. 
         - A porta configurada é `5555`, se precisar trocar vá em `server/config.yaml` .
 
