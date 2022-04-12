@@ -1,4 +1,5 @@
 import 'package:autoponia_app/src/core/app_snackbar.dart';
+import 'package:autoponia_app/src/core/widgets/input_form.dart';
 import 'package:autoponia_app/src/modules/plant/models/plant_model.dart';
 import 'package:autoponia_app/src/modules/plant/cubits/plant_state.dart';
 import 'package:autoponia_app/src/modules/plant/cubits/plant_cubit.dart';
@@ -18,54 +19,60 @@ class _PlantEditState extends ModularState<PlantEdit, PlantCubit> {
   late TextEditingController nameController;
   late TextEditingController dosageController;
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   void onSave() {
-    bloc
-        .update(widget.plant!.copyWith(
-      name: nameController.text,
-      dosage: int.parse(dosageController.text),
-    ))
-        .then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        getAppSnackBar(
-          message: 'Planta atualizada com sucesso',
-          type: SnackBarType.success,
-        ),
-      );
-      Modular.to.navigate('/plants');
-    }).catchError((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        getAppSnackBar(
-          message: 'Erro ao atualizar planta',
-          type: SnackBarType.error,
-        ),
-      );
-    });
+    if (_formKey.currentState!.validate()) {
+      bloc
+          .update(widget.plant!.copyWith(
+        name: nameController.text,
+        dosage: int.parse(dosageController.text),
+      ))
+          .then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          getAppSnackBar(
+            message: 'Planta atualizada com sucesso',
+            type: SnackBarType.success,
+          ),
+        );
+        Modular.to.navigate('/plants');
+      }).catchError((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          getAppSnackBar(
+            message: 'Erro ao atualizar planta',
+            type: SnackBarType.error,
+          ),
+        );
+      });
+    }
   }
 
   void onCreate() {
-    final plant = PlantModel(
-        name: nameController.text,
-        watering: bloc.plants.length.toString(),
-        dosage: int.parse(dosageController.text),
-        humidity: 30,
-        temperature: 25);
+    if (_formKey.currentState!.validate()) {
+      final plant = PlantModel(
+          name: nameController.text,
+          watering: bloc.plants.length.toString(),
+          dosage: int.parse(dosageController.text),
+          humidity: 30,
+          temperature: 25);
 
-    bloc.create(plant).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        getAppSnackBar(
-          message: 'Planta criada com sucesso',
-          type: SnackBarType.success,
-        ),
-      );
-      Modular.to.navigate('/plants');
-    }).catchError((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        getAppSnackBar(
-          message: 'Erro ao criar planta',
-          type: SnackBarType.error,
-        ),
-      );
-    });
+      bloc.create(plant).then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          getAppSnackBar(
+            message: 'Planta criada com sucesso',
+            type: SnackBarType.success,
+          ),
+        );
+        Modular.to.navigate('/plants');
+      }).catchError((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          getAppSnackBar(
+            message: 'Erro ao criar planta',
+            type: SnackBarType.error,
+          ),
+        );
+      });
+    }
   }
 
   @override
@@ -102,31 +109,28 @@ class _PlantEditState extends ModularState<PlantEdit, PlantCubit> {
             return Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nome *',
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    InputForm(
+                        controller: nameController,
+                        label: 'Nome *',
+                        maxLength: 10),
+                    InputForm(
+                        controller: dosageController,
+                        label: 'Dosagem (m³/min)*',
+                        maxLength: 3),
+                    const SizedBox(
+                      height: 20.0,
                     ),
-                    maxLength: 10,
-                  ),
-                  TextFormField(
-                    controller: dosageController,
-                    decoration: const InputDecoration(
-                      labelText: 'Dosagem (m³/min)*',
-                    ),
-                    maxLength: 3,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.blue),
-                      onPressed: () =>
-                          widget.plant != null ? onSave() : onCreate(),
-                      child: Text('Salvar')),
-                ],
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.blue),
+                        onPressed: () =>
+                            widget.plant != null ? onSave() : onCreate(),
+                        child: Text('Salvar')),
+                  ],
+                ),
               ),
             );
           }),

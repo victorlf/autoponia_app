@@ -23,7 +23,10 @@ class HomeButton extends StatelessWidget {
     return GestureDetector(
       onTap: () => Modular.to.navigate(navigationPath ?? '/home'),
       child: Container(
-        decoration: BoxDecoration(color: color),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
         width: width,
         height: height,
         alignment: Alignment.center,
